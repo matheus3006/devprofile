@@ -30,8 +30,7 @@ export const Home: React.FunctionComponent = () => {
             </UserInfoDetail>
           </UserInfo>
 
-        <Icon name="power" />
-
+          <Icon name="power" />
         </UserWrapper>
       </Header>
     </Container>
