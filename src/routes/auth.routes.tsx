@@ -7,9 +7,12 @@ const Auth = createNativeStackNavigator();
 
 export const AuthRoutes: React.FunctionComponent = () => {
   return (
-    <Auth.Navigator>
+    <Auth.Navigator
+      initialRouteName="SignIn"
+      screenOptions={{ headerShown: false }}
+    >
       <Auth.Screen name="SignIn" component={SignIn} />
-      <Auth.Screen name="SignUP" component={SignUp} />
+      <Auth.Screen name="SignUp" component={SignUp} />
     </Auth.Navigator>
   );
 };

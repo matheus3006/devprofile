@@ -8,9 +8,7 @@ import AppLoading from 'expo-app-loading';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
-import { Home } from './src/pages/Home';
-import { SignIn } from './src/pages/SignIn';
-import { SignUp } from './src/pages/SignUp';
+import { Routes } from './src/routes';
 
 const App: React.FunctionComponent = () => {
   const [fontsLoaded] = useFonts({
@@ -24,7 +22,7 @@ const App: React.FunctionComponent = () => {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <SignUp />
+        <Routes />
       </ThemeProvider>
     </NavigationContainer>
   );
