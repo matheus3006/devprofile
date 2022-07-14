@@ -59,14 +59,14 @@ export const SignIn: React.FunctionComponent = () => {
               autoCapitalize="none"
               autoCorrect={false}
               control={control}
+              keyboardType="email-address"
               name="email"
               placeholder="Email"
-              keyboardType="email-address"
             />
             <InputControl
-              control={control}
               name="password"
               placeholder="Senha"
+              control={control}
               autoCorrect={false}
               secureTextEntry
             />
