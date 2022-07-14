@@ -1,12 +1,28 @@
 import React from 'react';
 import { TextInputProps } from 'react-native';
-import theme from '../../../global/styles/theme';
+import { Control, Controller } from 'react-hook-form';
 import { Container } from './styles';
+import { Input } from '../Input/Index';
 
-export const Input: React.FunctionComponent<TextInputProps> = ({
+interface Props extends TextInputProps {
+  control: Control;
+  name: string;
+}
+
+export const InputControl: React.FunctionComponent<Props> = ({
+  control,
+  name,
   ...otherProps
 }) => {
   return (
-    <Container placeholderTextColor={theme.colors.gray500} {...otherProps} />
+    <Container>
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input onChangeText={onChange} value={value} {...otherProps} />
+        )}
+        name={name}
+      ></Controller>
+    </Container>
   );
 };
