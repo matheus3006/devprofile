@@ -7,7 +7,7 @@ import { Input } from '../Input/Index';
 interface Props extends TextInputProps {
   control: Control;
   name: string;
-  error: string | undefined;
+  error: any | undefined;
 }
 
 export const InputControl: React.FunctionComponent<Props> = ({

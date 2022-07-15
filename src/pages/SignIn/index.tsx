@@ -1,6 +1,9 @@
 import React from 'react';
 import { ScrollView, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import { useForm, FieldValues } from 'react-hook-form';
 import { Button } from '../../components/Form/Button';
 import {
@@ -25,8 +28,17 @@ interface IFormInputs {
   [name: string]: any;
 }
 
+const formSchema = yup.object({
+  email: yup.string().email('Email inválido').required('Informe o email'),
+  password: yup.string().required('Informe sua senha'),
+});
+
 export const SignIn: React.FunctionComponent = () => {
-  const { handleSubmit, control } = useForm<FieldValues>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FieldValues>({ resolver: yupResolver(formSchema) });
 
   const { navigate } = useNavigation<ScreenNavigationProp>();
 
@@ -62,6 +74,7 @@ export const SignIn: React.FunctionComponent = () => {
               keyboardType="email-address"
               name="email"
               placeholder="Email"
+              error={errors.email && errors.email.message}
             />
             <InputControl
               name="password"
@@ -69,6 +82,7 @@ export const SignIn: React.FunctionComponent = () => {
               control={control}
               autoCorrect={false}
               secureTextEntry
+              error={errors.password && errors.password.message}
             />
 
             <Button title="Entrar" onPress={handleSubmit(handleSignIn)} />
