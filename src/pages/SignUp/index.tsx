@@ -1,5 +1,7 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../components/Form/Button';
@@ -23,8 +25,20 @@ interface IFormInputs {
   [name: string]: any;
 }
 
+const formSchema = yup.object({
+  name: yup.string().required('Informe seu nome completo'),
+  email: yup.string().email('Email inválido').required('Informe o email'),
+  password: yup.string().required('Informe sua senha'),
+});
+
 export const SignUp: React.FunctionComponent = () => {
-  const { handleSubmit, control } = useForm<FieldValues>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    resolver: yupResolver(formSchema),
+  });
 
   const handleSignUp = (form: IFormInputs) => {
     const data = {
@@ -57,6 +71,7 @@ export const SignUp: React.FunctionComponent = () => {
               autoCorrect={false}
               control={control}
               name="name"
+              error={errors.name && errors.name.message}
             />
             <InputControl
               autoCapitalize="none"
@@ -65,6 +80,7 @@ export const SignUp: React.FunctionComponent = () => {
               keyboardType="email-address"
               placeholder="Email"
               name="email"
+              error={errors.email && errors.email.message}
             />
             <InputControl
               name="password"
@@ -72,6 +88,7 @@ export const SignUp: React.FunctionComponent = () => {
               control={control}
               autoCorrect={false}
               secureTextEntry
+              error={errors.password && errors.password.message}
             />
 
             <Button title="Criar conta" onPress={handleSubmit(handleSignUp)} />
