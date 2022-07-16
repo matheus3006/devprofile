@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { AuthContext } from './src/context/AuthContext';
+import { AuthProvider } from './src/context/AuthContext';
 import theme from './src/global/styles/theme';
 import { Routes } from './src/routes';
 
@@ -23,9 +23,9 @@ const App: React.FunctionComponent = () => {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <AuthContext.Provider value={{ name: 'Jorge' }}>
+        <AuthProvider>
           <Routes />
-        </AuthContext.Provider>
+        </AuthProvider>
       </ThemeProvider>
     </NavigationContainer>
   );
