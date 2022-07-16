@@ -62,7 +62,6 @@ export const SignUp: React.FunctionComponent = () => {
         'O cadastro foi realizado com sucesso',
       );
     } catch (err) {
-      console.error(err)
       Alert.alert(
         'Erro no cadastro',
         'Ocorreu um erro ao realizar o cadastro, tente novamente',
