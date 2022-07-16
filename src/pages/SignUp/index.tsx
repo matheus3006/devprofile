@@ -1,7 +1,15 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
+import { api } from '../../services/api';
+
 import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../components/Form/Button';
@@ -40,14 +48,26 @@ export const SignUp: React.FunctionComponent = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const handleSignUp = (form: IFormInputs) => {
+  const handleSignUp = async (form: IFormInputs) => {
     const data = {
       name: form.name,
       email: form.email,
       password: form.password,
     };
 
-    console.log(data);
+    try {
+      await api.post('users', data);
+      Alert.alert(
+        'Cadastro realizado com sucesso',
+        'O cadastro foi realizado com sucesso',
+      );
+    } catch (err) {
+      console.error(err)
+      Alert.alert(
+        'Erro no cadastro',
+        'Ocorreu um erro ao realizar o cadastro, tente novamente',
+      );
+    }
   };
 
   const { goBack } = useNavigation<ScreenNavigationProp>();
