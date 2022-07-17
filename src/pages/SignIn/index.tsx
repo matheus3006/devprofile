@@ -25,7 +25,7 @@ import {
 } from './styles';
 import logo from '../../assets/logo.png';
 import { InputControl } from '../../components/Form/InputControl/Index';
-import { AuthContext, useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface ScreenNavigationProp {
   navigate: (screen: string) => void;
