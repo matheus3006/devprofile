@@ -26,6 +26,7 @@ import {
 import logo from '../../assets/logo.png';
 import { InputControl } from '../../components/Form/InputControl/Index';
 import { useAuth } from '../../context/AuthContext';
+import { ForgotPassword } from '../ForgotPassword';
 
 interface ScreenNavigationProp {
   navigate: (screen: string) => void;
@@ -117,7 +118,11 @@ export const SignIn: React.FunctionComponent = () => {
               disabled={loading || errorsFound()}
             />
 
-            <ForgotPasswordButton>
+            <ForgotPasswordButton
+              onPress={() => {
+                navigate('ForgotPassword');
+              }}
+            >
               <ForgotPasswordTitle>Esqueci minha senha</ForgotPasswordTitle>
             </ForgotPasswordButton>
           </Content>

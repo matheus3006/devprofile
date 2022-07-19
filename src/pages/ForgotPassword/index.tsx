@@ -27,6 +27,7 @@ import { InputControl } from '../../components/Form/InputControl/Index';
 
 interface ScreenNavigationProp {
   goBack: () => void;
+  navigate: (screen: string) => void;
 }
 
 interface IFormInputs {
@@ -48,28 +49,27 @@ export const ForgotPassword: React.FunctionComponent = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const handleSignUp = async (form: IFormInputs) => {
+  const { goBack, navigate } = useNavigation<ScreenNavigationProp>();
+
+  const handleForgotPassword = async (form: IFormInputs) => {
     const data = {
-      name: form.name,
       email: form.email,
-      password: form.password,
     };
 
     try {
-      await api.post('users', data);
+      await api.post('password/forgot', data);
       Alert.alert(
-        'Cadastro realizado com sucesso',
-        'O cadastro foi realizado com sucesso',
+        'Email Enviado',
+        'Você recebera um email para redefinir a senha',
       );
+      navigate('SignIn');
     } catch (err) {
       Alert.alert(
-        'Erro no cadastro',
-        'Ocorreu um erro ao realizar o cadastro, tente novamente',
+        'Erro no envio de email',
+        'Ocorreu um erro ao realizar o envio do email, tente novamente',
       );
     }
   };
-
-  const { goBack } = useNavigation<ScreenNavigationProp>();
 
   return (
     <KeyboardAvoidingView
@@ -84,14 +84,7 @@ export const ForgotPassword: React.FunctionComponent = () => {
         <Container>
           <Content>
             <Logo source={logo} />
-            <Title>Cria sua Conta</Title>
-            <InputControl
-              placeholder="Nome Completo"
-              autoCorrect={false}
-              control={control}
-              name="name"
-              error={errors.name && errors.name.message}
-            />
+            <Title>Esqueci minha senha</Title>
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
@@ -101,16 +94,11 @@ export const ForgotPassword: React.FunctionComponent = () => {
               name="email"
               error={errors.email && errors.email.message}
             />
-            <InputControl
-              name="password"
-              placeholder="Senha"
-              control={control}
-              autoCorrect={false}
-              secureTextEntry
-              error={errors.password && errors.password.message}
-            />
 
-            <Button title="Criar conta" onPress={handleSubmit(handleSignUp)} />
+            <Button
+              title="Forgot password"
+              onPress={handleSubmit(handleForgotPassword)}
+            />
           </Content>
         </Container>
       </ScrollView>
