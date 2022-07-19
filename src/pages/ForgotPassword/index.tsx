@@ -5,13 +5,12 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-import { api } from '../../services/api';
-
 import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { InputControl } from '../../components/Form/InputControl/Index';
+import { api } from '../../services/api';
 import { Button } from '../../components/Form/Button';
 import {
   BackToSignIn,
@@ -23,11 +22,10 @@ import {
   Title,
 } from './styles';
 import logo from '../../assets/logo.png';
-import { InputControl } from '../../components/Form/InputControl/Index';
 
 interface ScreenNavigationProp {
   goBack: () => void;
-  navigate: (screen: string) => void;
+  navigate(screen: string): void;
 }
 
 interface IFormInputs {
@@ -35,9 +33,7 @@ interface IFormInputs {
 }
 
 const formSchema = yup.object({
-  name: yup.string().required('Informe seu nome completo'),
-  email: yup.string().email('Email inválido').required('Informe o email'),
-  password: yup.string().required('Informe sua senha'),
+  email: yup.string().email('Email inválido.').required('Informe o email.'),
 });
 
 export const ForgotPassword: React.FunctionComponent = () => {
@@ -51,7 +47,7 @@ export const ForgotPassword: React.FunctionComponent = () => {
 
   const { goBack, navigate } = useNavigation<ScreenNavigationProp>();
 
-  const handleForgotPassword = async (form: IFormInputs) => {
+  const handleForgotPassowrd = async (form: IFormInputs) => {
     const data = {
       email: form.email,
     };
@@ -59,14 +55,14 @@ export const ForgotPassword: React.FunctionComponent = () => {
     try {
       await api.post('password/forgot', data);
       Alert.alert(
-        'Email Enviado',
-        'Você recebera um email para redefinir a senha',
+        'Email enviado',
+        'Você receberá um email com as instruções para redefinição da senha.',
       );
-      navigate('SignIn');
-    } catch (err) {
+      navigate('ResetPassword');
+    } catch (error) {
       Alert.alert(
         'Erro no envio de email',
-        'Ocorreu um erro ao realizar o envio do email, tente novamente',
+        'Ocorreu um erro ao enviar o email. Tente novamente.',
       );
     }
   };
@@ -89,22 +85,22 @@ export const ForgotPassword: React.FunctionComponent = () => {
               autoCapitalize="none"
               autoCorrect={false}
               control={control}
-              keyboardType="email-address"
-              placeholder="Email"
               name="email"
+              placeholder="Email"
+              keyboardType="email-address"
               error={errors.email && errors.email.message}
             />
 
             <Button
-              title="Forgot password"
-              onPress={handleSubmit(handleForgotPassword)}
+              title="Entrar"
+              onPress={handleSubmit(handleForgotPassowrd)}
             />
           </Content>
         </Container>
       </ScrollView>
       <BackToSignIn onPress={() => goBack()}>
         <Icon name="arrow-left" />
-        <BackToSignInTitle> Entrar na minha Conta </BackToSignInTitle>
+        <BackToSignInTitle>Voltar para logon</BackToSignInTitle>
       </BackToSignIn>
     </KeyboardAvoidingView>
   );
