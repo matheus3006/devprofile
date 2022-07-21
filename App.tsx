@@ -6,6 +6,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import { AuthProvider } from './src/context/AuthContext';
 import theme from './src/global/styles/theme';
@@ -22,6 +23,7 @@ const App: React.FunctionComponent = () => {
   }
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor="trasnparent" translucent />
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <Routes />
