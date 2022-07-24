@@ -12,14 +12,14 @@ export const Content = styled.View`
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: ${RFValue(24)}px;
+  padding: 24px;
 `;
 
 export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.light};
-  margin: ${RFValue(24)}px;
+  margin-bottom: 24px;
 `;
 
 export const Logo = styled.Image`
@@ -41,7 +41,7 @@ export const BackToSignIn = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.gray800};
   border-top-width: 1px;
   border-color: ${({ theme }) => theme.colors.black};
-  padding: 16px 0px;
+  padding: 16px 0;
   justify-content: center;
   align-items: center;
   flex-direction: row;

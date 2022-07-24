@@ -9,9 +9,10 @@ import { useForm, FieldValues } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { InputControl } from '../../components/Form/InputControl/Index';
+
 import { api } from '../../services/api';
 import { Button } from '../../components/Form/Button';
+import { InputControl } from '../../components/Form/InputControl';
 import {
   BackToSignIn,
   BackToSignInTitle,
@@ -92,7 +93,7 @@ export const ForgotPassword: React.FunctionComponent = () => {
             />
 
             <Button
-              title="Entrar"
+              title="Enviar"
               onPress={handleSubmit(handleForgotPassowrd)}
             />
           </Content>
