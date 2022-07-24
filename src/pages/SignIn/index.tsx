@@ -6,11 +6,12 @@ import {
   View,
   Alert,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useForm, FieldValues } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useForm, FieldValues } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
+
 import { Button } from '../../components/Form/Button';
 import {
   Container,
@@ -24,9 +25,8 @@ import {
   Title,
 } from './styles';
 import logo from '../../assets/logo.png';
-import { InputControl } from '../../components/Form/InputControl/Index';
+import { InputControl } from '../../components/Form/InputControl';
 import { useAuth } from '../../context/AuthContext';
-import { ForgotPassword } from '../ForgotPassword';
 
 interface ScreenNavigationProp {
   navigate: (screen: string) => void;
@@ -37,8 +37,8 @@ interface IFormInputs {
 }
 
 const formSchema = yup.object({
-  email: yup.string().email('Email inválido').required('Informe o email'),
-  password: yup.string().required('Informe sua senha'),
+  email: yup.string().email('Email inválido.').required('Informe o email.'),
+  password: yup.string().required('Informe a senha.'),
 });
 
 export const SignIn: React.FunctionComponent = () => {
@@ -49,7 +49,9 @@ export const SignIn: React.FunctionComponent = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FieldValues>({ resolver: yupResolver(formSchema) });
+  } = useForm<FieldValues>({
+    resolver: yupResolver(formSchema),
+  });
 
   const { navigate } = useNavigation<ScreenNavigationProp>();
 
@@ -64,17 +66,9 @@ export const SignIn: React.FunctionComponent = () => {
       signIn(data);
     } catch (error) {
       Alert.alert(
-        'Erro na auteenticação',
-        'Occorreu um erro ao fazer login, verifique as credencias',
+        'Erro na autenticação',
+        'Ocorreu um erro ao fazer login, verifique as credenciais.',
       );
-    }
-  };
-
-  const errorsFound = () => {
-    if (errors.email || errors.password) {
-      return true;
-    } else {
-      return false;
     }
   };
 
@@ -98,15 +92,15 @@ export const SignIn: React.FunctionComponent = () => {
               autoCapitalize="none"
               autoCorrect={false}
               control={control}
-              keyboardType="email-address"
               name="email"
               placeholder="Email"
+              keyboardType="email-address"
               error={errors.email && errors.email.message}
             />
             <InputControl
+              control={control}
               name="password"
               placeholder="Senha"
-              control={control}
               autoCorrect={false}
               secureTextEntry
               error={errors.password && errors.password.message}
@@ -114,15 +108,11 @@ export const SignIn: React.FunctionComponent = () => {
 
             <Button
               title="Entrar"
+              disabled={loading || errors.email || errors.password}
               onPress={handleSubmit(handleSignIn)}
-              disabled={loading || errorsFound()}
             />
 
-            <ForgotPasswordButton
-              onPress={() => {
-                navigate('ForgotPassword');
-              }}
-            >
+            <ForgotPasswordButton onPress={() => navigate('ForgotPassword')}>
               <ForgotPasswordTitle>Esqueci minha senha</ForgotPasswordTitle>
             </ForgotPasswordButton>
           </Content>

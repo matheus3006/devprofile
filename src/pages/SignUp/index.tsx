@@ -5,14 +5,14 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useForm, FieldValues } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { api } from '../../services/api';
-
-import { useForm, FieldValues } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../components/Form/Button';
+import { InputControl } from '../../components/Form/InputControl';
 import {
   BackToSignIn,
   BackToSignInTitle,
@@ -23,7 +23,6 @@ import {
   Title,
 } from './styles';
 import logo from '../../assets/logo.png';
-import { InputControl } from '../../components/Form/InputControl/Index';
 
 interface ScreenNavigationProp {
   goBack: () => void;
@@ -34,9 +33,9 @@ interface IFormInputs {
 }
 
 const formSchema = yup.object({
-  name: yup.string().required('Informe seu nome completo'),
-  email: yup.string().email('Email inválido').required('Informe o email'),
-  password: yup.string().required('Informe sua senha'),
+  name: yup.string().required('Informe o nome completo.'),
+  email: yup.string().email('Email inválido.').required('Informe o email.'),
+  password: yup.string().required('Informe a senha.'),
 });
 
 export const SignUp: React.FunctionComponent = () => {
@@ -48,6 +47,8 @@ export const SignUp: React.FunctionComponent = () => {
     resolver: yupResolver(formSchema),
   });
 
+  const { goBack } = useNavigation<ScreenNavigationProp>();
+
   const handleSignUp = async (form: IFormInputs) => {
     const data = {
       name: form.name,
@@ -58,18 +59,16 @@ export const SignUp: React.FunctionComponent = () => {
     try {
       await api.post('users', data);
       Alert.alert(
-        'Cadastro realizado com sucesso',
-        'O cadastro foi realizado com sucesso',
+        'Cadastro realizado',
+        'Você já pode fazer login na aplicação.',
       );
-    } catch (err) {
+    } catch (error) {
       Alert.alert(
         'Erro no cadastro',
-        'Ocorreu um erro ao realizar o cadastro, tente novamente',
+        'Ocorreu um erro ao fazer o cadastro. Tente novamente.',
       );
     }
   };
-
-  const { goBack } = useNavigation<ScreenNavigationProp>();
 
   return (
     <KeyboardAvoidingView
@@ -84,39 +83,40 @@ export const SignUp: React.FunctionComponent = () => {
         <Container>
           <Content>
             <Logo source={logo} />
-            <Title>Cria sua Conta</Title>
+            <Title>Crie sua conta</Title>
             <InputControl
-              placeholder="Nome Completo"
+              autoCapitalize="none"
               autoCorrect={false}
               control={control}
               name="name"
+              placeholder="Nome completo"
               error={errors.name && errors.name.message}
             />
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
               control={control}
-              keyboardType="email-address"
-              placeholder="Email"
               name="email"
+              placeholder="Email"
+              keyboardType="email-address"
               error={errors.email && errors.email.message}
             />
             <InputControl
+              control={control}
               name="password"
               placeholder="Senha"
-              control={control}
               autoCorrect={false}
               secureTextEntry
               error={errors.password && errors.password.message}
             />
 
-            <Button title="Criar conta" onPress={handleSubmit(handleSignUp)} />
+            <Button title="Entrar" onPress={handleSubmit(handleSignUp)} />
           </Content>
         </Container>
       </ScrollView>
       <BackToSignIn onPress={() => goBack()}>
         <Icon name="arrow-left" />
-        <BackToSignInTitle> Entrar na minha Conta </BackToSignInTitle>
+        <BackToSignInTitle>Voltar para logon</BackToSignInTitle>
       </BackToSignIn>
     </KeyboardAvoidingView>
   );
