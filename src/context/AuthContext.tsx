@@ -8,6 +8,7 @@ interface IAuthState {
   token: string;
   user: IUser;
 }
+
 interface ICredentials {
   email: string;
   password: string;
@@ -17,6 +18,7 @@ interface IAuthContext {
   user: IUser;
   signIn(credentials: ICredentials): void;
   signOut(): void;
+  updateUser(user: IUser): void;
 }
 
 interface IProps {
@@ -43,12 +45,17 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       }
     }
+
     loadAuthData();
   }, []);
 
   const signIn = async ({ email, password }: ICredentials) => {
     try {
-      const response = await api.post('sessions', { email, password });
+      const response = await api.post('sessions', {
+        email,
+        password,
+      });
+
       const { token, user } = response.data;
 
       await AsyncStorage.setItem(tokenData, token);
@@ -56,10 +63,11 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setData({ token, user });
-    } catch (err) {
+    } catch (error) {
+      //throw new Error(error as string);
       Alert.alert(
-        'Erro na auteenticação',
-        'Occorreu um erro ao fazer login, verifique as credencias',
+        'Erro na autenticação',
+        'Ocorreu um erro ao fazer login, verifique as credenciais.',
       );
     }
   };
@@ -70,8 +78,18 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
     setData({} as IAuthState);
   };
 
+  const updateUser = async (user: IUser) => {
+    await AsyncStorage.setItem(userData, JSON.stringify(user));
+    setData({
+      user,
+      token: data.token,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -81,7 +99,7 @@ export const useAuth = (): IAuthContext => {
   const context = React.useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth deve ser usado em um AuthProvider');
+    throw new Error('useAuth deve ser usado em um AuthProvider.');
   }
 
   return context;

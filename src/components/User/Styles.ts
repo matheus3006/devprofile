@@ -7,9 +7,10 @@ export const Container = styled(RectButton)`
   height: ${RFValue(100)}px;
   background-color: ${({ theme }) => theme.colors.gray800};
   border-radius: 10px;
+
   flex-direction: row;
   justify-content: space-between;
-  justify-items: center;
+  align-items: center;
   padding: 20px;
   margin: 8px 0;
 `;
