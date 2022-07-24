@@ -11,7 +11,8 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${RFPercentage(18)}px;
+  height: ${RFPercentage(17)}px;
+
   background-color: ${({ theme }) => theme.colors.secondary};
   justify-content: center;
   align-items: center;
@@ -21,7 +22,7 @@ export const Header = styled.View`
 
 export const UserWrapper = styled.View`
   width: 100%;
-  padding: 0 ${RFValue(24)}px;
+  padding: 0 24px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -37,31 +38,32 @@ export const UserAvatarButton = styled.TouchableOpacity``;
 export const UserAvatar = styled.Image`
   width: ${RFValue(52)}px;
   height: ${RFValue(52)}px;
-  border-radius: ${RFValue(10)}px;
+  border-radius: 10px;
 `;
 
 export const UserInfoDetail = styled.View`
-  margin-left: ${RFValue(17)}px;
+  margin-left: 17px;
 `;
-export const UserGreating = styled.Text`
+
+export const UserGreeting = styled.Text`
   color: ${({ theme }) => theme.colors.gray800};
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const UserName = styled.Text`
-  color: ${({ theme }) => theme.colors.gray800};
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.bold};
   font-weight: bold;
+  color: ${({ theme }) => theme.colors.gray800};
 `;
 
-export const Icon = styled(Feather as any)`
+export const Icon = styled(Feather)`
   font-size: ${RFValue(28)}px;
   color: ${({ theme }) => theme.colors.dark};
 `;
 
-export const LogOutButton = styled.TouchableOpacity``;
+export const LogoutButton = styled.TouchableOpacity``;
 
 export const UserList = styled(
   FlatList as new (props: FlatListProps<IUser>) => FlatList<IUser>,
@@ -74,14 +76,14 @@ export const UserList = styled(
 
 export const UserListEmpty = styled.Text`
   font-size: ${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.gray500};
 `;
 
 export const UserListHeader = styled.Text`
-  color: ${({ theme }) => theme.colors.primary};
   font-size: ${RFValue(24)}px;
   font-family: ${({ theme }) => theme.fonts.bold};
   font-weight: bold;
+  color: ${({ theme }) => theme.colors.primary};
   margin-bottom: ${RFValue(8)}px;
 `;
