@@ -101,6 +101,5 @@ export const useAuth = (): IAuthContext => {
   if (!context) {
     throw new Error('useAuth deve ser usado em um AuthProvider.');
   }
-
   return context;
 };
